@@ -2,9 +2,22 @@
 
 from argparse import ArgumentParser
 
+from PIL import Image
+
+
+def to_pixels(buffer, target_size):
+    image = Image.open(buffer)
+    # TODO: preserve aspect ratio, insert empty lines as to center
+    image = image.resize(target_size)
+
+    data = image.getdata()
+    # strip anything outside rgb
+    return tuple((r, g, b) for r, g, b, *_ in data)
+
 
 def main(args):
-    pass
+    with open(args.image, 'rb') as image:
+        pixels = to_pixels(image, (12, 10))
 
 
 if __name__ == '__main__':
