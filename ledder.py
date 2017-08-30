@@ -8,7 +8,9 @@ from requests import Session
 
 
 def _glue_url(*parts):
-    return path.join(*(str(part) for part in parts))
+    # append an empty string to make the url end in a /
+    # (seems flask breaks things if we don't)
+    return path.join(*(str(part) for part in parts), '')
 
 
 class LedderClient:
